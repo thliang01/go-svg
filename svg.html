@@ -1,0 +1,47 @@
+<?php
+require_once('mysql.ini.php');
+$con = mysqli_connect($db_host,$db_user,$db_pwd);
+mysqli_set_charset($con,"utf8");
+mysqli_select_db($con, "rdms");
+
+?>
+<html>
+<head>
+  <title>SVG Example</title>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+</head>
+<body>
+welcome!
+<?php
+$sql="select * from rdini";
+echo "sql=".$sql."<BR>";
+$rs = mysqli_query($con,$sql);
+$mygrid = 100;
+$myfather = 2;
+while(($row = mysqli_fetch_array($rs, MYSQLI_ASSOC))){
+  echo "key=".$row['mykey']."<br>";
+  echo "value=".$row['myvalue']."<br>";
+  if($row['mykey']=="grid")
+    $mygrid = $row['myvalue'];
+  else if($row['mykey']=="father")
+    $myfather =  $row['myvalue'];
+}
+$width=$mygrid*10;
+?>
+<hr>
+<svg height="<?php echo ''.$width; ?>" width="<?php echo ''.$width; ?>">
+<?php
+  for($y1=0;$y1<=$width; $y1+=$mygrid){
+    echo '<line x1="0" y1="'.$y1.'" x2="'.$width.'" y2="'.$y1;
+    echo '" style="stroke:rgb(255,0,0);stroke-width:1" />';
+  }
+  for($x1=0;$x1<=$width; $x1+=$mygrid){
+    echo '<line x1="'.$x1.'" y1="0" x2="'.$x1.'" y2="'.$width.'"';
+    echo ' style="stroke:rgb(255,0,0);stroke-width:1" />';
+  }
+  echo '<rect x="'.($myfather*$mygrid-($mygrid/2)).'" y="'.($mygrid*2-($mygrid/2)).'" width="'.$mygrid.'" height="'.$mygrid.'" style="fill:blue;stroke:pink;stroke-width:5;fill-opacity:0.1;stroke-opacity:1" />';
+?>
+</svg>
+<hr>
+</body>
+</html>
