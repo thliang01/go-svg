@@ -9,6 +9,6 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: Slack Notification
-    - uses: thliang01/action-slack-notify@master
-    env:
+      uses: thliang01/action-slack-notify@master
+      env:
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
