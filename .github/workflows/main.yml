@@ -11,4 +11,4 @@ jobs:
     - name: Slack Notification
     - uses: thliang01/action-slack-notify@master
     env:
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        SLACK_WEBHOOK: https://hooks.slack.com/services/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
