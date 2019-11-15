@@ -223,6 +223,7 @@ func TwoKidSVG(w http.ResponseWriter, req *http.Request) {
 	s.Line(250, 500, 2000, 500, "stroke:black;stroke-width:20;stroke-linecap:butt")
 	s.Line(250, 500, 250, 750, "stroke:black;stroke-width:20;stroke-linecap:butt")
 	s.Line(2000, 500, 2000, 750, "stroke:black;stroke-width:20;stroke-linecap:butt")
+
 	for row.Next() {
 		err = row.Scan(&id.Id, &id.Name, &id.Age, &id.Gender,
 			&id.IdNumber, &id.Father, &id.Mother, &id.Address)
