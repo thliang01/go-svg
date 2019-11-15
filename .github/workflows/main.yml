@@ -3,7 +3,7 @@ name: Slack Notification CI
 on: [push]
 
 jobs:
-  Slack Notification:
+  slackNotification:
     name: Slack Notification
     runs-on: ubuntu-latest
     steps:
