@@ -205,7 +205,6 @@ func TwoKidSVG(w http.ResponseWriter, req *http.Request) {
 	w.Header().Set("Content-Type", "image/svg+xml")
 	s := svg.New(w)
 	s.Start(width, height)
-
 	var err error
 	Db, err = sql.Open("postgres", "user=tree1 dbname=tree1 password=tree1")
 	if err != nil {
