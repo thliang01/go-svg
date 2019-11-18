@@ -10,8 +10,14 @@ import (
 )
 
 var (
-	height = 1000
-	width  = 10000
+	height   = 1000
+	width    = 10000
+	startx   int
+	starty   int
+	grid     int
+	span     int
+	children int
+	Width    = children*grid + (children-1)*span
 )
 
 type idcard struct {
@@ -29,18 +35,47 @@ type idcard struct {
 var Db *sql.DB
 
 func main() {
-	http.Handle("/singlemansvg", http.HandlerFunc(SingleManSVG))
-	http.Handle("/singlewomansvg", http.HandlerFunc(SingleWomanSVG))
-	http.Handle("/couplesvg", http.HandlerFunc(CoupleSVG))
-	http.Handle("/onekidsvg", http.HandlerFunc(OneKidSVG))
-	http.Handle("/twokidsvg", http.HandlerFunc(TwoKidSVG))
-	http.Handle("/threekidsvg", http.HandlerFunc(ThreeKidSVG))
-	http.Handle("/fourkidsvg", http.HandlerFunc(FourKidSVG))
-	http.Handle("/fivekidsvg", http.HandlerFunc(FiveKidSVG))
-	err := http.ListenAndServe(":2003", nil)
+
+	var err error
+	Db, err = sql.Open("postgres", "user=tree1 dbname=tree1 password=tree1")
 	if err != nil {
-		log.Fatal("ListenAndServe:", err)
+		panic(err)
 	}
+
+	row, err := Db.Query("select startx, starty, grid, span from boundary")
+	if err != nil {
+		return
+	}
+
+	for row.Next() {
+		err = row.Scan(&startx, &starty, &grid, &span)
+		if err != nil {
+			return
+		}
+		// log.Println(startx, starty, grid, span)
+	}
+
+	// fmt.Println(startx, starty, grid, span)
+
+	/*
+		http.Handle("/singlemansvg", http.HandlerFunc(SingleManSVG))
+		http.Handle("/singlewomansvg", http.HandlerFunc(SingleWomanSVG))
+		http.Handle("/couplesvg", http.HandlerFunc(CoupleSVG))
+	*/
+
+	http.Handle("/onekidsvg", http.HandlerFunc(OneKidSVG))
+
+	/*
+		http.Handle("/twokidsvg", http.HandlerFunc(TwoKidSVG))
+		http.Handle("/threekidsvg", http.HandlerFunc(ThreeKidSVG))
+		http.Handle("/fourkidsvg", http.HandlerFunc(FourKidSVG))
+		http.Handle("/fivekidsvg", http.HandlerFunc(FiveKidSVG))
+		err := http.ListenAndServe(":2003", nil)
+		if err != nil {
+			log.Fatal("ListenAndServe:", err)
+		}
+
+	*/
 }
 
 func CoupleSVG(w http.ResponseWriter, req *http.Request) {
